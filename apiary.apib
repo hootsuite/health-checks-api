@@ -1,0 +1,281 @@
+FORMAT: 1A
+HOST: https://example.com
+
+# Hootsuite Health Checks
+
+The API that Hootsuite uses for monitoring service health.
+
+# Group Status
+
+Status endpoints used to check the health of a service.
+
+## Am I Up [/status/am-i-up]
+
+### /status/am-i-up [GET]
+
+Checks if the service is running. This endpoint does not check any dependencies, it simply returns "OK".
+
++ Response 200 (application/text)
+
+    + Body
+
+                "OK"
+
+## Aggregate [/status/aggregate?type={type}]
+
+### /status/aggregate [GET]
+
+Checks the overall status of the service by checking the status of dependencies.
+By default, this endpoint checks `all` dependencies or can be filtered to check only `internal` or `external`
+dependencies.
+
++ Parameters
+    + type: `"internal"` (string, optional) - The type of dependencies to check (internal, external).
+
++ Response 200 (application/json)
+    
+    + Attributes (array)
+        + (Status)
+        
+    + Body
+
+            [
+                "OK"
+            ]
+
++ Response 200 (application/json)
+    
+    + Attributes (array)
+        + (Status)
+        + (StatusDetails)
+        
+    + Body
+
+            [
+                "CRIT",
+                {
+                    "description":"aggregate check CRIT",
+                    "result":"CRIT",
+                    "details":"A detailed error message"
+                }
+            ]
+
++ Response 200 (application/json)
+    
+    + Attributes (array)
+        + (Status)
+        + (StatusDetails)
+        
+    + Body
+
+            [
+                "WARN",
+                {
+                    "description":"aggregate check WARN",
+                    "result":"WARN",
+                    "details":"A detailed warning message"
+                }
+            ]
+
+## About [/status/about]
+
+### /status/about [GET]
+
+Gets metadata about the service including it's dependencies and their current status
+
++ Response 200 (application/json)
+    
+    + Attributes (About)
+    
+    + Body
+
+            {
+                "name": "Awesome Service",
+                "description": "This service does awesome stuff.",
+                "protocol": "http",
+                "owners": "Adam <adam@example.com>, Denis <denis@example.com>, Martin <martin@example.com>",
+                "version": "1.1.0.5a1dea1",
+                "host": "app1.staging.example.com",
+                "projectRepo": "https://github.com/hootsuite/awesome-service",
+                "projectHome": "https://documentation.com/awesome-service",
+                "logsLinks": [
+                    "http://logging.com/logs",
+                    "http://logging.com/errors"
+                ],
+                "statsLinks": [
+                    "http://graphs.com/awesome-service-dashboard",
+                    "http://graphs.com/awesome-service-dashboard-2"
+                ],
+                "dependencies": [
+                    {
+                        "name": "Mysql DB",
+                        "status": [
+                            "OK"
+                        ],
+                        "statusDuration": 0.001469342,
+                        "statusPath": "mysql",
+                        "type": "internal",
+                        "isTraversable": false
+                    },
+                    {
+                        "name": "Another Service",
+                        "status": [
+                            "OK"
+                        ],
+                        "statusDuration": 0.000605037,
+                        "statusPath": "another-service",
+                        "type": "service",
+                        "isTraversable": true
+                    }
+                ]
+            }
+
+## Traverse [/status/traverse?dependencies={dependencies}&action={action}]
+
+### /status/traverse [GET]
+
+Traverse to another node in the graph and run an "action" at that level and return the result. The default action is about.
+
++ Parameters
+    + dependencies: `service1,service2` (string, optional) - A comma delimited list of services to traverse.
+        + Default: ``
+    + action: `about` (string, optional) - The action to run at the last node in the traversal.
+        + Default: `about`
+
++ Response 200 (application/json)
+
+    + Attributes (About)
+
+    + Body
+
+            {
+                "name": "Awesome Service",
+                "description": "This service does awesome stuff.",
+                "protocol": "http",
+                "owners": "Adam <adam@example.com>, Denis <denis@example.com>, Martin <martin@example.com>",
+                "version": "1.1.0.5a1dea1",
+                "host": "s1.staging.example.com",
+                "projectRepo": "https://github.com/hootsuite/awesome-service",
+                "projectHome": "https://documentation.com/awesome-service",
+                "logsLinks": [
+                    "http://logging.com/logs",
+                    "http://logging.com/errors"
+                ],
+                "statsLinks": [
+                    "http://graphs.com/awesome-service-dashboard",
+                    "http://graphs.com/awesome-service-dashboard-2"
+                ],
+                "dependencies": [
+                    {
+                        "name": "Mysql DB",
+                        "status": [
+                            "OK"
+                        ],
+                        "statusDuration": 0.001469342,
+                        "statusPath": "mysql",
+                        "type": "internal",
+                        "isTraversable": false
+                    },
+                    {
+                        "name": "Another Service",
+                        "status": [
+                            "OK"
+                        ],
+                        "statusDuration": 0.000605037,
+                        "statusPath": "another-service",
+                        "type": "service",
+                        "isTraversable": true
+                    }
+                ]
+            }
+
+## Dependency [/status/{dependency}]
+
+### /status/{dependency} [GET]
+
+Gets the status of a configured dependency using its `statusPath`. There are 3 levels of status:
+
+OK - Everything is all good
+WARN - The dependency is in a sub optimal state. See `details` in response for more info.
+CRIT - The dependency has an error. See `details` in response for more info.
+
+
++ Parameters
+    + dependency: `"mysql-db"` (string, required) - The `statusPath` of configured dependency to check the status of.
++ Response 200 (application/json)
+    
+    + Attributes (array)
+        + (Status)
+
+    + Body
+
+            [
+                "OK"
+            ]
+            
++ Response 200 (application/json)
+
+    + Attributes (array)
+        + (Status)
+        + (StatusDetails)
+        
+    + Body
+
+            [
+                "CRIT",
+                {
+                    "description":"mysql check CRIT",
+                    "result":"CRIT",
+                    "details":"Can't connect to database"
+                }
+            ]
+
++ Response 200 (application/json)
+
+    + Attributes (array)
+        + (Status)
+        + (StatusDetails)
+
+    + Body
+
+            [
+                "WARN",
+                {
+                    "description":"mysql check WARN",
+                    "result":"WARN",
+                    "details":"Running out of disk space"
+                }
+            ]
+
+# Data Structures
+
+## Status (enum)
+    + OK (string)
+    + CRIT (string)
+    + WARN (string)
+
+## StatusDetails (object)
++ description : mysql (string, required)  Description of the status check
++ result : CRIT (Status, required)  Resulting Status of the check
++ details : Can't connect to database (string, required)  Details about the result of the check. An error message
+
+## Dependency (object)
++ name : "Mysql DB" (string, required) Name of the dependency
++ status : ["OK] (array[Status,StatusDetails], required) The status of the dependency
++ statusDuration : 0.001469342 (number, required) The length of time it took to check the status of the dependency
++ statusPath : mysql-db (string, required) The path of the status endpoint for this dependency
++ type : internal (string, required) The type of dependency
++ isTraversable : false (boolean, required) Is the dependency traversable
+
+## About (object)
++ name : Awesome Service (string, required) The name of the service
++ description : The awesome service does awesome stuff (string, required) A description of the service
++ protocol : http (string, required) The protocol of the service
++ owners : Adam <adam@example.com>, Denis <denis@example.com>, Martin <martin@example.com> (string, required) The owners of the service
++ version : 1.1.0.5a1dea1 (string, required) The version of the service
++ host : s1.staging.example.com (string, required) Hostname of the machine hosting the service
++ projectRepo : https://github.com/hootsuite/awesome-service (string, required) Link to project source control
++ projectHome : https://documentation.com/awesome-service (string, required) Link to the documentation or homepage of the service
++ logsLinks : ["http://logging.com/logs", "http://logging.com/errors"] (array[string], required)
++ statsLinks : ["http://graphs.com/awesome-service-dashboard", "http://graphs.com/awesome-service-dashboard-2"] (array[string], required)
++ dependencies : (array[Dependency], required)
