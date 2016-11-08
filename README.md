@@ -49,3 +49,5 @@ Contribute by submitting a PR and a bug report in GitHub.
 - :octocat: [Brandon McRae](https://github.com/brandon-mcrae-hs) - [@HootBrandon](https://twitter.com/HootBrandon)
 - :octocat: [Mike Sample](https://github.com/michael-sample-hs) - [@mikesample](https://twitter.com/mikesample)
 - :octocat: [Sim Brar](https://github.com/simba11) - [@sim_brar](https://twitter.com/sim_brar)
+
+CLA Test
