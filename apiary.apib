@@ -90,10 +90,14 @@ Gets metadata about the service including it's dependencies and their current st
     + Body
 
             {
+                "id": "awesome",
                 "name": "Awesome Service",
                 "description": "This service does awesome stuff.",
                 "protocol": "http",
-                "owners": "Adam <adam@example.com>, Denis <denis@example.com>, Martin <martin@example.com>",
+                "owners": [
+                  "Adam <adam@example.com>",
+                  "Denis <denis@example.com>"
+                ],
                 "version": "1.1.0.5a1dea1",
                 "host": "app1.staging.example.com",
                 "projectRepo": "https://github.com/hootsuite/awesome-service",
@@ -127,6 +131,9 @@ Gets metadata about the service including it's dependencies and their current st
                         "type": "service",
                         "isTraversable": true
                     }
+                ],
+                "customData": [
+                  "a-key": "a-value"
                 ]
             }
 
@@ -149,10 +156,14 @@ Traverse to another node in the graph and run an "action" at that level and retu
     + Body
 
             {
+                "id": "awesome",
                 "name": "Awesome Service",
                 "description": "This service does awesome stuff.",
                 "protocol": "http",
-                "owners": "Adam <adam@example.com>, Denis <denis@example.com>, Martin <martin@example.com>",
+                "owners": [
+                  "Adam <adam@example.com>",
+                  "Denis <denis@example.com>"
+                ],
                 "version": "1.1.0.5a1dea1",
                 "host": "s1.staging.example.com",
                 "projectRepo": "https://github.com/hootsuite/awesome-service",
@@ -186,6 +197,9 @@ Traverse to another node in the graph and run an "action" at that level and retu
                         "type": "service",
                         "isTraversable": true
                     }
+                ],
+                "customData": [
+                 "a-key": "a-value"
                 ]
             }
 
@@ -268,10 +282,11 @@ CRIT - The dependency has an error. See `details` in response for more info.
 + isTraversable : false (boolean, required) Is the dependency traversable
 
 ## About (object)
++ id : awesome (string, required) The unique id of the service. To be used in statusPath and dependencies for calling services
 + name : Awesome Service (string, required) The name of the service
 + description : The awesome service does awesome stuff (string, required) A description of the service
 + protocol : http (string, required) The protocol of the service
-+ owners : Adam <adam@example.com>, Denis <denis@example.com>, Martin <martin@example.com> (string, required) The owners of the service
++ owners : ["Adam <adam@example.com>", "Denis <denis@example.com>"] (array[string], required) The owners/maintainers of the service
 + version : 1.1.0.5a1dea1 (string, required) The version of the service
 + host : s1.staging.example.com (string, required) Hostname of the machine hosting the service
 + projectRepo : https://github.com/hootsuite/awesome-service (string, required) Link to project source control
@@ -279,3 +294,4 @@ CRIT - The dependency has an error. See `details` in response for more info.
 + logsLinks : ["http://logging.com/logs", "http://logging.com/errors"] (array[string], required)
 + statsLinks : ["http://graphs.com/awesome-service-dashboard", "http://graphs.com/awesome-service-dashboard-2"] (array[string], required)
 + dependencies : (array[Dependency], required)
++ customData: (object, optional) Custom data defined by the service
