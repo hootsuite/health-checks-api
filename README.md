@@ -16,9 +16,12 @@ As distributed applications grow, it becomes more and more complicated to unders
 We use API Blueprint to describe the Health Checks API. **[Read the documentation here](https://hootsuite.github.io/health-checks-api/)**
 
 # Implementations
-Over the coming months we will be publishing our implementations of the Health Checks API in the languages we use. Don't see your favourite language? Contribute back to the community by sharing your implementation. 
+Below are implementations of the Health Checks API in the languages we use. Don't see your favourite language? Contribute back to the community by sharing your implementation. 
+- [Go](https://github.com/hootsuite/healthchecks)
+- "Your favourite language" - [contribute](#how-to-contribute)
+
+### Coming Soon
 - [Scala](https://github.com/hootsuite/health-checks-api/issues/1)
-- [Go](https://github.com/hootsuite/health-checks-api/issues/2)
 - "Your favourite language" - [contribute](#how-to-contribute)
 
 # Tools
