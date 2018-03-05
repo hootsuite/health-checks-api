@@ -28,9 +28,11 @@ Below are implementations of the Health Checks API in the languages we use. Don'
 An API is only the start. We have developed some tools that use the Health Checks API that help make our lives easier.
 
 ### Microservice Graph Explorer
-Navigate to all of the microservices in your application in real time using the real application connections. The Microservice Graph Explorer gives you the ability to monitor the status of your microservices as well and provides dashboard and debugging information that can help you discover the source of outages in no time. It also works as a great learning / exploration tool for the devops in your organization to understand all the different dependencies of your application. 
-[![Voltron demo video](/img/microservice-graph-explorer.png?raw=true "Voltron Dashboard")](https://youtu.be/JAoSkddOIC8?t=25m29s)
+Navigate to all of the microservices in your application in real time using the real application connections. [The Microservice Graph Explorer](https://github.com/hootsuite/microservice-graph-explorer) gives you the ability to monitor the status of your microservices as well and provides dashboard and debugging information that can help you discover the source of outages in no time. It also works as a great learning / exploration tool for the devops in your organization to understand all the different dependencies of your application. 
+[![Microservice Graph Explorer demo video](/img/microservice-graph-explorer.png?raw=true "Microservice Graph Explorer Dashboard")](https://youtu.be/JAoSkddOIC8?t=25m29s)
 [Watch demo video](https://youtu.be/JAoSkddOIC8?t=25m29s)
+
+The Microservice Graph Explorer is now open source at [https://github.com/hootsuite/microservice-graph-explorer](https://github.com/hootsuite/microservice-graph-explorer)
 
 ### Microservice Dependencies
 Automate architecture diagrams and documentation using the Health Checks API and the data it contains.
