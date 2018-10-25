@@ -18,6 +18,7 @@ We use API Blueprint to describe the Health Checks API. **[Read the documentatio
 # Implementations
 Below are implementations of the Health Checks API in the languages we use. Don't see your favourite language? Contribute back to the community by sharing your implementation. 
 - [Go](https://github.com/hootsuite/healthchecks)
+- [Node](https://github.com/Bauer-Xcel-Media/node-healthchecks-api)
 - "Your favourite language" - [contribute](#how-to-contribute)
 
 ### Coming Soon
